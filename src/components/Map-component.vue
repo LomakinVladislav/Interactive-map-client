@@ -1,5 +1,5 @@
 <template>
-    <div id="container">
+    <div id="container-map">
     </div>
 </template>
 
@@ -7,7 +7,7 @@
 
 import { load } from '@2gis/mapgl';
 load().then((mapglAPI) => {
-    const map = new mapglAPI.Map('container', {
+    const map = new mapglAPI.Map('container-map', {
         center: [65.60144491376327, 57.13738502177971],
         zoom: 17,
         key: '4f4f6aee-f6b4-42e7-86be-8a23efc49b28',
@@ -108,9 +108,11 @@ load().then((mapglAPI) => {
 
 </script>
 
-<style scoped>
-#container {
-    width: 800px;
-    height: 800px;
+<style scoped lang="scss">
+#container-map {
+    flex-grow: 1;
+    //display: flex;
+    // width: 800px;
+    // height: 800px;
 }
 </style>
