@@ -7,7 +7,7 @@
 </template>
 
 <script setup>
-import topPanel from "./components/Top-panel.vue";
+import topPanel from "./components/TopPanel/Top-panel.vue";
 import mapBlock from "./components/Map-component.vue";
 import leftPanel from "./components/LeftPanel/Left-panel.vue"
 </script>
@@ -24,6 +24,7 @@ import leftPanel from "./components/LeftPanel/Left-panel.vue"
   .main {
     display: flex;
     flex-grow: 1;
+    z-index: 0;
     max-height: calc(100vh - 65px);
   }
 }
