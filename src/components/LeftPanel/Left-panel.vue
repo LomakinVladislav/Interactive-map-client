@@ -5,125 +5,11 @@
             <button>Целевые участки</button>
             <button>Объекты строительства</button>
         </div>
-        <div id="content-list">
+        <div id="content-list" v-for="(object, id) in objects" :key=id>
             <left-panel-item
-                :coordinates="'66:41:0403007:15'"
-                :address="'г. Тюмень, Улица 50 лет Октября, 63 к2'"
-                :square="660"
-            />
-
-            <left-panel-item
-                :coordinates="'66:41:0403007:15'"
-                :address="'г. Тюмень, Улица 50 лет Октября, 63 к2'"
-                :square="660"
-            />
-
-            <left-panel-item
-                :coordinates="'66:41:0403007:15'"
-                :address="'г. Тюмень, Улица 50 лет Октября, 63 к2'"
-                :square="660"
-            />
-
-            <left-panel-item
-                :coordinates="'66:41:0403007:15'"
-                :address="'г. Тюмень, Улица 50 лет Октября, 63 к2'"
-                :square="660"
-            />
-
-            <left-panel-item
-                :coordinates="'66:41:0403007:15'"
-                :address="'г. Тюмень, Улица 50 лет Октября, 63 к2'"
-                :square="660"
-            />
-
-            <left-panel-item
-                :coordinates="'66:41:0403007:15'"
-                :address="'г. Тюмень, Улица 50 лет Октября, 63 к2'"
-                :square="660"
-            />
-
-            <left-panel-item
-                :coordinates="'66:41:0403007:15'"
-                :address="'г. Тюмень, Улица 50 лет Октября, 63 к2'"
-                :square="660"
-            />
-
-            <left-panel-item
-                :coordinates="'66:41:0403007:15'"
-                :address="'г. Тюмень, Улица 50 лет Октября, 63 к2'"
-                :square="660"
-            />
-
-            <left-panel-item
-                :coordinates="'66:41:0403007:15'"
-                :address="'г. Тюмень, Улица 50 лет Октября, 63 к2'"
-                :square="660"
-            />
-
-            <left-panel-item
-                :coordinates="'66:41:0403007:15'"
-                :address="'г. Тюмень, Улица 50 лет Октября, 63 к2'"
-                :square="660"
-            />
-
-            <left-panel-item
-                :coordinates="'66:41:0403007:15'"
-                :address="'г. Тюмень, Улица 50 лет Октября, 63 к2'"
-                :square="660"
-            />
-
-            <left-panel-item
-                :coordinates="'66:41:0403007:15'"
-                :address="'г. Тюмень, Улица 50 лет Октября, 63 к2'"
-                :square="660"
-            />
-
-            <left-panel-item
-                :coordinates="'66:41:0403007:15'"
-                :address="'г. Тюмень, Улица 50 лет Октября, 63 к2'"
-                :square="660"
-            />
-
-            <left-panel-item
-                :coordinates="'66:41:0403007:15'"
-                :address="'г. Тюмень, Улица 50 лет Октября, 63 к2'"
-                :square="660"
-            />
-
-            <left-panel-item
-                :coordinates="'66:41:0403007:15'"
-                :address="'г. Тюмень, Улица 50 лет Октября, 63 к2'"
-                :square="660"
-            />
-
-            <left-panel-item
-                :coordinates="'66:41:0403007:15'"
-                :address="'г. Тюмень, Улица 50 лет Октября, 63 к2'"
-                :square="660"
-            />
-
-            <left-panel-item
-                :coordinates="'66:41:0403007:15'"
-                :address="'г. Тюмень, Улица 50 лет Октября, 63 к2'"
-                :square="660"
-            />
-
-            <left-panel-item
-                :coordinates="'66:41:0403007:15'"
-                :address="'г. Тюмень, Улица 50 лет Октября, 63 к2'"
-                :square="660"
-            />
-
-            <left-panel-item
-                :coordinates="'66:41:0403007:15'"
-                :address="'г. Тюмень, Улица 50 лет Октября, 63 к2'"
-                :square="660"
-            />
-
-            <left-panel-item
-                :coordinates="'66:41:0403007:15'"
-                :address="'г. Тюмень, Улица 50 лет Октября, 63 к2'"
-                :square="660"
+                :coordinates="object.cadastral_number"
+                :address="object.address"
+                :square="object.area"
             />
         </div>
     </div>
@@ -131,6 +17,20 @@
 
 <script setup>
 import leftPanelItem from '@/components/LeftPanel/Left-panel-item.vue';
+import { fetchGet } from '@/subFuncs';
+import { ref, onBeforeMount } from 'vue';
+
+let objects = ref({});
+
+onBeforeMount(async () => {
+    getObject()
+})
+
+async function getObject() {
+    let data = await fetchGet("objects/details");
+    objects.value = data;
+}
+
 </script>
 
 <style lang="scss" scoped>
@@ -138,8 +38,8 @@ import leftPanelItem from '@/components/LeftPanel/Left-panel-item.vue';
 #container {
     display: flex;
     width: 30%;
-    border: 2px solid;
-    border-color: $border-element;
+    // border-right: 2px solid;
+    // border-color: $border-element;
     flex-direction: column;
 }
 

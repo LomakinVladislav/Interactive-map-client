@@ -38,10 +38,17 @@ defineProps({
     gap: 15px;
   }
 
-  p, h3 {
+  h3 {
     max-width: 350px;
     text-overflow: ellipsis;
     overflow: hidden;
+  }
+
+  p {
+    max-width: 350px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    font-size: 11pt;
   }
 
   img {
