@@ -1,5 +1,7 @@
 import { createStore } from 'vuex';
-import {mapObjectsStore} from './mapObjectsStore/mapObjectsStore';
+import {objectsStore} from '@/store/objectsStore/objectsStore';
+import {mapStore} from '@/store/mapStore/mapStore';
+import {layersStore} from "@/store/layersStore/layersStore";
 
 export default createStore({
     state: {
@@ -12,6 +14,8 @@ export default createStore({
     actions: {},
     
     modules: {
-        mapObjectsStore
+        objectsStore,
+        mapStore,
+        layersStore,
     }
 })

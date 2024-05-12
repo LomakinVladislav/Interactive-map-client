@@ -6,5 +6,10 @@ module.exports = defineConfig({
         additionalData: `@import "~@/styles/styles.scss";`
       }
     }
+  },
+  devServer: {
+    client: {
+      overlay: false,
+    }
   }
 })

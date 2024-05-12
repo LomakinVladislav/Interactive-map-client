@@ -4,7 +4,7 @@
       <img src="@/assets/folders.png"/>
 
       <div>
-        <h3>{{ coordinates }}</h3>
+        <h3>{{ cadastralNumber }}</h3>
         <p>{{ address }}</p>
       </div>
     </div>
@@ -20,7 +20,7 @@
 import { defineProps } from "vue";
 
 defineProps({
-  coordinates: String,
+  cadastralNumber: String,
   address: String,
   square: Number,
 })

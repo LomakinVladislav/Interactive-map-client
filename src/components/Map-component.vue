@@ -1,48 +1,79 @@
 <template>
-  <div id="container-map" />
+  <div class="map">
+    <div class="map__container" id="map__container"/>
+    <layerSwitcher/>
+    <map-legend/>
+  </div>
 </template>
 
 <script setup>
-import { load } from '@2gis/mapgl';
-import { onMounted } from 'vue';
-import { useStore } from 'vuex';
+import {computed, onMounted, ref, watch} from 'vue';
+import {useStore} from 'vuex';
+import layerSwitcher from './Layer-switcher.vue';
+import MapLegend from "@/components/MapLegend.vue";
 
 const store = useStore()
 
-onMounted(async () => {
-  await store.dispatch('mapObjectsStore/fetchMapObjects')
+const mapApi = computed(() => store.state.mapStore.mapApi)
+const map = computed(() => store.state.mapStore.map)
 
-  const mapglAPI = await load()
+const polygons = ref([])
 
-  const map = new mapglAPI.Map('container-map', {
-    center: [65.60144491376327, 57.13738502177971],
-    zoom: 17,
-    key: 'f7124a3e-77ac-446c-b3bd-b480396882f9',
-    lang: 'ru'
-  });
+const boundaries = computed(() => store.getters['objectsStore/getBoundaries'])
 
+function updatePolygons() {
+  boundaries.value.forEach((boundary) => {
+    const cords = [boundary.map(({cords}) => cords)]
 
-  const mapObjects = store.getters["mapObjectsStore/mapObjects"]
+    const color = store.getters['layersStore/getCurrentColor'](boundary[0].layerId)
 
-  mapObjects.forEach((mapObject) => {
-    Object.values(mapObject)
-    .forEach(mapLayer => {
-      new mapglAPI.Polygon(map, {
-      coordinates: [mapLayer],
-      color: '#99000055',
+    const polygon = new mapApi.value.Polygon(map.value, {
+      coordinates: cords,
+      color: `${color}55`,
       strokeWidth: 1,
-      strokeColor: '#bb0000',
-    });
+      strokeColor: color,
     })
+
+    polygons.value.push(polygon)
   })
+}
+
+function destroyPolygons() {
+  polygons.value
+      .forEach(polygon => polygon.destroy())
+}
+
+watch(boundaries, () => {
+  destroyPolygons()
+  updatePolygons()
+})
+
+onMounted(async () => {
+  await store.dispatch('layersStore/fetchLayers')
+  await store.dispatch('mapStore/initMap')
+  await store.dispatch('objectsStore/fetchObjects')
 })
 </script>
 
-<style scoped lang="scss">
-#container-map {
+<style lang="scss">
+.map {
   flex-grow: 1;
-  //display: flex;
-  // width: 800px;
-  // height: 800px;
+  position: relative;
+
+  &__container {
+    height: 100%;
+  }
+
+  .layer-switcher {
+    position: absolute;
+    top: 85px;
+    right: 10px;
+  }
+
+  .map-legend {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+  }
 }
 </style>
